@@ -2,7 +2,7 @@ from itertools import groupby
 import torch
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
-MODEL_NAME = "0x7194633/keyt5-large"
+MODEL_NAME = "keyt5-craft"
 
 # Загрузка модели и токенизатора
 tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
