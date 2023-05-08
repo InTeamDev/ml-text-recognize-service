@@ -8,20 +8,26 @@ MODEL_NAME = "0x7194633/keyt5-large"
 tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
 model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME)
 
+# Предобработки сгенерированного текста
 def process_text(s):
-    """Функция для предобработки сгенерированного текста."""
     s = s.replace('; ', ';').replace(' ;', ';').lower().split(';')[:-1]
     s = [el for el, _ in groupby(s)]
     return s
 
+# Функция для генерации текста с помощью модели
 def generate(text, **kwargs):
-    """Функция для генерации текста с помощью модели."""
     inputs = tokenizer(text, return_tensors='pt')
     with torch.no_grad():
         hypotheses = model.generate(**inputs, num_beams=5, **kwargs)
     return process_text(tokenizer.decode(hypotheses[0], skip_special_tokens=True))
 
 
-article = """Жизнь человека неразрывно связана с родной природой, с землей. Земля - это наша кормилица..."""
+# Чтение текста из файла
+with open("text.txt", "r") as file:
+    article = file.read()
 
-print(generate(article, top_p=1.0, max_length=64))
+tags = generate(article, top_p=1.0, max_length=64)
+
+# Запись результата в файл
+with open("output.txt", "w") as file:
+        file.write(f"{article};{tags}")
