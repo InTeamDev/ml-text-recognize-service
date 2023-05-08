@@ -12,7 +12,7 @@ BATCH_SIZE = 4
 REPORT_STEPS = 200
 EPOCHS = 3
 LEARNING_RATE = 1e-5
-NEW_MODEL_NAME = 'keyT5-custom'
+NEW_MODEL_NAME = 'keyt5-craft'
 
 # Загрузка модели и токенизатора
 def load_model_and_tokenizer(raw_model):
@@ -42,7 +42,7 @@ def answer(x, model, tokenizer, **kwargs):
     return tokenizer.decode(hypotheses[0], skip_special_tokens=True)
 
 # Загрузка данных
-df = pd.read_csv('dataset/train.csv')
+df = pd.read_csv('train.csv')
 pd.options.display.max_colwidth = 500
 df_train, df_test = train_test_split(df.dropna(), test_size=0.5, random_state=1)
 pairs = df_train[['X', 'Y']].values.tolist()
