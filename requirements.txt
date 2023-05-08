@@ -1,0 +1,9 @@
+transformers
+torch
+sentencepiecen
+numpy
+torch
+sklearn.model_selection
+transformers
+tqdm
+whisper
