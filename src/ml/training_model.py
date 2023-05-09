@@ -1,10 +1,11 @@
 import random
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 import torch
 from sklearn.model_selection import train_test_split
-from transformers import T5ForConditionalGeneration, T5Tokenizer
 from tqdm import trange
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 # Гиперпараметры
 RAW_MODEL = '0x7194633/keyt5-large'
@@ -14,16 +15,19 @@ EPOCHS = 3
 LEARNING_RATE = 1e-5
 NEW_MODEL_NAME = 'keyt5-craft'
 
+
 # Загрузка модели и токенизатора
 def load_model_and_tokenizer(raw_model):
     model = T5ForConditionalGeneration.from_pretrained(raw_model).cuda()
     tokenizer = T5Tokenizer.from_pretrained(raw_model)
     return model, tokenizer
 
+
 # Генерация пар батчей
 def batch_pairs(pairs, batch_size):
     random.shuffle(pairs)
-    return [pairs[i * batch_size: (i + 1) * batch_size] for i in range(int(len(pairs) / batch_size))]
+    return [pairs[i * batch_size : (i + 1) * batch_size] for i in range(int(len(pairs) / batch_size))]
+
 
 # Тестирование модели
 def test_model(model, tokenizer, df, sample_size=5):
@@ -34,12 +38,14 @@ def test_model(model, tokenizer, df, sample_size=5):
         print('model: ', answer(row.X, model, tokenizer))
         print('---')
 
+
 # Ответ модели
 def answer(x, model, tokenizer, **kwargs):
     inputs = tokenizer(x, return_tensors='pt').to(model.device)
     with torch.no_grad():
         hypotheses = model.generate(**inputs, **kwargs)
     return tokenizer.decode(hypotheses[0], skip_special_tokens=True)
+
 
 # Загрузка данных
 df = pd.read_csv('train.csv')
@@ -62,7 +68,13 @@ for epoch in range(EPOCHS):
         x = tokenizer([p[0] for p in batch], return_tensors='pt', padding=True).to(model.device)
         y = tokenizer([p[1] for p in batch], return_tensors='pt', padding=True).to(model.device)
         y.input_ids[y.input_ids == 0] = -100
-        loss = model(input_ids=x.input_ids, attention_mask=x.attention_mask, labels=y.input_ids, decoder_attention_mask=y.attention_mask, return_dict=True).loss
+        loss = model(
+            input_ids=x.input_ids,
+            attention_mask=x.attention_mask,
+            labels=y.input_ids,
+            decoder_attention_mask=y.attention_mask,
+            return_dict=True,
+        ).loss
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
