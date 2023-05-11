@@ -26,7 +26,7 @@ def generate(text, **kwargs):
 with open("text.txt", "r") as file:
     article = file.read()
 
-tags = generate(article, top_p=1.0, max_length=64)
+tags = set(generate(article, top_p=1.0, max_length=64))
 
 # Запись результата в файл
 with open("output.txt", "w") as file:
