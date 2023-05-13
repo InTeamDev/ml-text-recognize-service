@@ -1,4 +1,9 @@
-def get(source: str) -> list[str]:
+from typing import List
+
+from .using_model import TagsService
+
+
+def get(source: str) -> List[str]:
     """Получение ключевых слов (тэгов) из текста
 
     Args:
@@ -8,6 +13,8 @@ def get(source: str) -> list[str]:
         list[str]: теги
     """
 
-    # some logic
+    tags_service = TagsService(source)
+    # get tags logic...
+    result = []
 
-    return source.split()
+    return result
