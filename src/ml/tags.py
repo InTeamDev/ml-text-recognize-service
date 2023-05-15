@@ -1,20 +1,19 @@
-from typing import List
+from typing import Set
 
 from .using_model import TagsService
 
 
-def get(source: str) -> List[str]:
+def get(source: str) -> Set[str]:
     """Получение ключевых слов (тэгов) из текста
 
     Args:
         source (str): исходный текст
 
     Returns:
-        list[str]: теги
+        set[str]: теги
     """
 
     tags_service = TagsService(source)
-    # get tags logic...
-    result = []
-
+    result = tags_service.generate_tags()
+    
     return result
