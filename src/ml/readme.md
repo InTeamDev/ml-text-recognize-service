@@ -1,7 +1,3 @@
-# how to use
-
-need keyT5-craft folder
-
 ### Recognize
 
 Для транскрибации аудиопотока в текст, в файле `recognize.py` нужно использовать функцию `get`.

@@ -1,6 +1,6 @@
 from typing import Set
 
-from .using_model import TagsService
+from .tags_search import KeywordService
 
 
 def get(source: str) -> Set[str]:
@@ -13,7 +13,7 @@ def get(source: str) -> Set[str]:
         set[str]: теги
     """
 
-    tags_service = TagsService(source)
+    tags_service = KeywordService(source)
     result = tags_service.generate_tags()
     
     return result
