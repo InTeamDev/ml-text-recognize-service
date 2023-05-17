@@ -1,9 +1,9 @@
-from typing import Set
+from typing import List
 
 from .tags_search import KeywordService
 
 
-def get(source: str) -> Set[str]:
+def get(source: str) -> List[str]:
     """Получение ключевых слов (тэгов) из текста
 
     Args:
@@ -16,4 +16,4 @@ def get(source: str) -> Set[str]:
     tags_service = KeywordService(source)
     result = tags_service.generate_tags()
 
-    return result
+    return list(result)

@@ -1,18 +1,16 @@
 from dependency_injector import containers, providers
 
-from .database import Database, Transaction
-from .settings import Settings, settings
+from backend.repositories.record_repository import RecordRepository
+
+from .database import MongoClientProvider
 
 
 class Container(containers.DeclarativeContainer):
-    db = providers.Singleton(Database, dsn=settings.get_dsn())
+    mongo_client = MongoClientProvider()
 
-    transaction_provider = providers.Factory(
-        Transaction,
-        transaction_session=db.provided.transaction,
-    )
+    record_repository = providers.Factory(RecordRepository, db_client=mongo_client)
 
 
-def configure(app_settings: Settings) -> Container:
+def configure() -> Container:
     container = Container()
     return container

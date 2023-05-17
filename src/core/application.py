@@ -12,7 +12,7 @@ def create_app() -> FastAPI:
         redoc_url=f'{settings.BASE_URL}/redoc',
     )
 
-    app.container = configure(settings)
+    app.container = configure()
     app.container.wire(packages=['backend'])
 
     return app

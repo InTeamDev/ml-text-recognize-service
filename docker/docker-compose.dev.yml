@@ -1,35 +1,38 @@
 version: "3"
 
 services:
-  db:
-    image: "postgres:14.2"
+  mongodb:
+    image: mongo
     ports:
-      - "5432:5432"
+      - "27017:27017"
     environment:
-      POSTGRES_USER: ml
-      POSTGRES_PASSWORD: ml
-      POSTGRES_DB: ml
+      MONGO_INITDB_DATABASE: "ml"
+    volumes:
+      - mongodb_data:/data/db
     networks:
       - backend
-  # api:
-  #   build:
-  #     context: ../
-  #     dockerfile: ./docker/api/Dockerfile
-  #   command: bash -c "pip install -r requirements.txt && uvicorn main:app --reload --app-dir=src --proxy-headers --host=0.0.0.0 --port=8000"
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - "..:/opt/service"
-  #   environment:
-  #     APP_ENV: development
-  #     DATABASE_DSN: postgresql://ml:ml@db:5432/ml
-  #     DB_USER: "ml"
-  #     DB_PASSWORD: "ml"
-  #     DB_HOST: "127.0.0.1"
-  #     DB_PORT: 5432
-  #     DB_DATABASE: "ml"
-  #   networks:
-  #     - backend
+
+  api:
+    build:
+      context: ../
+      dockerfile: ./docker/api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - "..:/opt/service"
+    environment:
+      DB_HOST: "mongodb"
+      DB_PORT: 27017
+      DB_DATABASE: "ml"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
 
 networks:
   backend:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
