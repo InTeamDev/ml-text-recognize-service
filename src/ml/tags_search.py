@@ -43,9 +43,3 @@ class KeywordService:
         keywords = self.extract_keywords()
         keywords = self.normalize_keywords(keywords)
         return keywords
-
-if __name__ == "__main__":
-    text = open("C:/Users/пк/Desktop/Проекты/Технолог практика/ml-service/src/ml/d.txt").read()
-    service = KeywordService(text)
-    keywords = service.generate_tags()
-    print(keywords)
