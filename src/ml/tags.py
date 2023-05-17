@@ -15,5 +15,5 @@ def get(source: str) -> Set[str]:
 
     tags_service = KeywordService(source)
     result = tags_service.generate_tags()
-    
+
     return result

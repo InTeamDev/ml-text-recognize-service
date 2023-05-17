@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from pydantic import BaseSettings
 
 
@@ -15,4 +16,5 @@ class Settings(BaseSettings):
         return f'postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_DATABASE}'
 
 
+load_dotenv()
 settings = Settings()  # type: ignore
