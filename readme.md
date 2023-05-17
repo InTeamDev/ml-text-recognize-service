@@ -2,8 +2,20 @@
 
 API для транскрибации аудиолекций
 
-Backend+DevOps+Infra - Павел (ZetoOfficial)
-ML - Александр (Chelozzi)
+**Авторы**:
+
+`Backend+DevOps+Infra` - Павел (ZetoOfficial) <br>
+`ML` - Александр (Chelozzi) <br>
+
+## Документация
+
+### ReDoc
+
+http://0.0.0.0:8000/api/redoc
+
+### Docs
+
+http://0.0.0.0:8000/api/docs
 
 ## Запуск
 
@@ -30,13 +42,3 @@ export DB_DATABASE="ml"
 
 uvicorn main:app --reload --app-dir=src --host=0.0.0.0 --port=8000 --proxy-headers
 ```
-
-## Документация
-
-### ReDoc
-
-http://0.0.0.0:8000/api/redoc
-
-### Docs
-
-http://0.0.0.0:8000/api/docs
