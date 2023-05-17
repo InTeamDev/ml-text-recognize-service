@@ -3,16 +3,8 @@ import yake
 
 
 class KeywordService:
-    def __init__(
-        self,
-        text,
-        language="ru",
-        max_ngram_size=2,
-        deduplication_threshold=0.9,
-        deduplication_algo='seqm',
-        windowSize=1,
-        numOfKeywords=20,
-    ):
+    def __init__(self, text, language="ru", max_ngram_size=2, 
+                 deduplication_threshold=0.9, deduplication_algo='seqm', windowSize=1, numOfKeywords=20):
         self.text = text
         self.language = language
         self.max_ngram_size = max_ngram_size
@@ -51,3 +43,9 @@ class KeywordService:
         keywords = self.extract_keywords()
         keywords = self.normalize_keywords(keywords)
         return keywords
+
+if __name__ == "__main__":
+    text = open("C:/Users/пк/Desktop/Проекты/Технолог практика/ml-service/src/ml/d.txt").read()
+    service = KeywordService(text)
+    keywords = service.generate_tags()
+    print(keywords)
