@@ -1,13 +1,19 @@
-def get(source: str) -> list[str]:
+from typing import List
+
+from .tags_search import KeywordService
+
+
+def get(source: str) -> List[str]:
     """Получение ключевых слов (тэгов) из текста
 
     Args:
         source (str): исходный текст
 
     Returns:
-        list[str]: теги
+        set[str]: теги
     """
 
-    # some logic
+    tags_service = KeywordService(source)
+    result = tags_service.generate_tags()
 
-    return source.split()
+    return list(result)

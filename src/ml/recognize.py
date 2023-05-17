@@ -1,13 +1,12 @@
 from typing import Union
 
 import numpy as np
-import torch
 import whisper
 
 model = whisper.load_model("base")
 
 
-def get(audio: Union[str, np.ndarray, torch.Tensor]) -> str:
+def get(audio: Union[str, np.ndarray]) -> dict:
     """Получения текста из аудио
 
     Args:
@@ -17,4 +16,4 @@ def get(audio: Union[str, np.ndarray, torch.Tensor]) -> str:
         str: полученный текст
     """
     result = model.transcribe(audio, fp16=False)
-    return result['text']  # type: ignore
+    return result
