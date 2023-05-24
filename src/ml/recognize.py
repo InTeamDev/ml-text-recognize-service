@@ -6,7 +6,7 @@ import whisper
 model = whisper.load_model("base")
 
 
-def get(audio: Union[str, np.ndarray]) -> dict:
+def get(audio: Union[str, np.ndarray]) -> str:
     """Получения текста из аудио
 
     Args:
