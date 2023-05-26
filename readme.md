@@ -15,7 +15,7 @@ http://localhost:8000/api/redoc
 
 ### Docs
 
-http://localhost:8000/api/docs
+https://localhost:8000/api/docs
 
 ## Запуск
 
