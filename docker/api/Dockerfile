@@ -7,9 +7,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt requirements.txt
+COPY requirements.txt .
+
 RUN pip install -r requirements.txt --no-cache-dir
 
 COPY . .
 
-CMD uvicorn main:app --reload --app-dir=src --host=0.0.0.0 --port=8000 --proxy-headers
+RUN pip install -e src
+
+RUN python src/download_model.py
+
+CMD uvicorn main:app --app-dir=src --host=localhost --port=8000 --proxy-headers --ssl-keyfile=./certs/localhost-key.pem --ssl-certfile=./certs/localhost.pem
