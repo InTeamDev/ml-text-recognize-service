@@ -11,11 +11,11 @@ API для транскрибации аудиолекций
 
 ### ReDoc
 
-http://0.0.0.0:8000/api/redoc
+http://localhost:8000/api/redoc
 
 ### Docs
 
-http://0.0.0.0:8000/api/docs
+http://localhost:8000/api/docs
 
 ## Запуск
 
