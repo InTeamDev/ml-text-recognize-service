@@ -21,7 +21,6 @@ http://0.0.0.0:8000/api/docs
 
 1. Install ffmpeg - https://ffmpeg.org/download.html
 2. Install mkcert - https://github.com/FiloSottile/mkcert
-   2.2 Настроить сертификаты:
 
 ### Linux/MacOS
 
