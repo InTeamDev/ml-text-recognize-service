@@ -1,6 +1,8 @@
+from string import punctuation
+
 import pymorphy2
 import yake
-from string import punctuation
+
 
 class KeywordService:
     def __init__(
@@ -42,12 +44,12 @@ class KeywordService:
         for word in words:
             word_save = word
             punct = ""
-            if (word[-1] in punctuation):
+            if word[-1] in punctuation:
                 punct = word[-1]
                 word = word[:-1]
                 word_save = word
-            word = (self.morph.parse(word)[0].inflect({'sing'}))
-            if (word == None):
+            word = self.morph.parse(word)[0].inflect({'sing'})
+            if word is None:
                 word = word_save
             else:
                 word = word.normal_form
@@ -55,25 +57,24 @@ class KeywordService:
             lemmatized_words.append(word)
         lemmatized_text = ' '.join(lemmatized_words)
         return lemmatized_text
-    
+
     def normalize_keywords(self, input_keywords):
         keywords = list()
         for keyword in input_keywords:
             if self.morph.parse(keyword[0])[0].tag.POS in self.tokens:  # type: ignore
-                if (keyword[0][-1] in punctuation):
+                if keyword[0][-1] in punctuation:
                     keyword = (keyword[0][:-1], keyword[1])
-                keywords.append(keyword)          
+                keywords.append(keyword)
         return keywords
-    
+
     def sort_keywords_frequency(self, keywords):
-        keywords.sort(key = lambda keyword: keyword[1])
+        keywords.sort(key=lambda keyword: keyword[1])
         keywords = list(reversed(keywords))
         return keywords
-    
+
     def return_first_max_frequency(self, keywords, count):
-        count_keywords = 20
-        return list(map(lambda keyword: keyword[0], keywords[:count_keywords]))
-        
+        return list(map(lambda keyword: keyword[0], keywords[:count]))
+
     def generate_tags(self):
         self.text = self.lemmatize_text()
         keywords = self.extract_keywords()
