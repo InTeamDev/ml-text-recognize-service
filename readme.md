@@ -73,10 +73,10 @@ move localhost-key.pem certs/
 ```bash
 # set up virtual environment
 python -m venv .venv
-venv\Scripts\activate.bat
+.venv\Scripts\activate.bat
 
 # install requirements
-venv pip install -r requirements.txt
+pip install -r requirements.txt
 pip install -e src/
 
 # copy config file + заполняем его
