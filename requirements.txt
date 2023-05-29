@@ -60,4 +60,4 @@ uvicorn==0.22.0
 websockets==11.0.3
 yake==0.4.8
 youtube-dl==2021.12.17
-yt-dlp==2023.3.4
+yt-dlp @ https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz#sha256=a1dfa11d782656350b1394eb8374b9ae77a5e5d3a1e9b37d834ddea222ee3431
