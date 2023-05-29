@@ -80,8 +80,8 @@ venv pip install -r requirements.txt
 pip install -e src/
 
 # copy config file + заполняем его
-copy src/core/.env.example src/core/.env
+copy src\core\.env.example src\core\.env
 
 # run service
-uvicorn main:app --app-dir=src --host=localhost --port=8000 --proxy-headers --ssl-keyfile=./certs/localhost-key.pem --ssl-certfile=./certs/localhost.pem
+uvicorn main:app --app-dir=src --host=localhost --port=8000 --proxy-headers --ssl-keyfile=.\certs\localhost-key.pem --ssl-certfile=.\certs\localhost.pem
 ```
