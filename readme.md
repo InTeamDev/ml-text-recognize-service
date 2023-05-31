@@ -21,7 +21,7 @@ https://localhost:8000/api/docs
 
 **ОБЯЗАТЕЛЬНО УСТАНОВИТЬ ВСЕ**
 
-1. Install ffmpeg - https://ffmpeg.org/download.html
+1. Install ffmpeg - https://phoenixnap.com/kb/ffmpeg-windows
 2. Install mkcert - https://github.com/FiloSottile/mkcert
 
 ### Linux/MacOS
