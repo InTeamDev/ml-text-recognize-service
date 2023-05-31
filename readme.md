@@ -76,11 +76,13 @@ python -m venv .venv
 .venv\Scripts\activate.bat
 
 # install requirements
+pip install --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 pip install -r requirements.txt
 pip install -e src/
 
 # copy config file + заполняем его
 copy src\core\.env.example src\core\.env
+# Нужно обязательно указать mongo_dsn!!!
 
 # run service
 uvicorn main:app --app-dir=src --host=localhost --port=8000 --proxy-headers --ssl-keyfile=.\certs\localhost-key.pem --ssl-certfile=.\certs\localhost.pem
