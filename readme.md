@@ -19,6 +19,8 @@ https://localhost:8000/api/docs
 
 ## Запуск
 
+**ОБЯЗАТЕЛЬНО УСТАНОВИТЬ ВСЕ**
+
 1. Install ffmpeg - https://ffmpeg.org/download.html
 2. Install mkcert - https://github.com/FiloSottile/mkcert
 
