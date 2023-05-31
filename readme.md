@@ -21,8 +21,9 @@ https://localhost:8000/api/docs
 
 **ОБЯЗАТЕЛЬНО УСТАНОВИТЬ ВСЕ**
 
-1. Install ffmpeg - https://phoenixnap.com/kb/ffmpeg-windows
-2. Install mkcert - https://github.com/FiloSottile/mkcert
+1. Install Python3.9 (ВАЖНО ИМЕННО 3.9)
+2. Install ffmpeg - https://phoenixnap.com/kb/ffmpeg-windows
+3. Install mkcert - https://github.com/FiloSottile/mkcert
 
 ### Linux/MacOS
 
@@ -46,6 +47,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # install requirements
+pip install --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 pip install -r requirements.txt
 pip install -e src/
 
