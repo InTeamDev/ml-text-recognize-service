@@ -23,7 +23,7 @@ https://localhost:8000/api/docs
 
 1. Install mkcert - https://github.com/FiloSottile/mkcert
 2. Docker and Docker-compose - https://linuxhint.com/install-docker-compose-windows/
-3. Make (optional) - https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows
+3. Make - https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows
 
 ### Запуск после установки того, что выше:
 
@@ -45,13 +45,8 @@ move localhost-key.pem certs/
 # если установлен make, то
 make up
 
-# если нет, тогда
-docker-compose -f docker/docker-compose.dev.yml up --build -d
-
 # глянуть логи
 make logs
-# или
-docker-compose -f docker/docker-compose.dev.yml logs -f --tail 100 api
 ```
 
 ## Запуск (native)
