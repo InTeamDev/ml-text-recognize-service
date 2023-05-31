@@ -3,15 +3,15 @@ version: "3"
 services:
   mongodb:
     image: mongo
+    restart: always
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: "ml"
     volumes:
-      - mongodb_data:/data/db
+      - mongodata:/data/db
     networks:
       - backend
-
   api:
     build:
       context: ../
@@ -19,9 +19,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "..:/opt/service"
+      - "..:/opt/ml_service"
     environment:
-      MONGO_DSN: ""
+      MONGO_DSN: "mongodb://mongodb:27017"
     depends_on:
       - mongodb
     networks:
@@ -29,8 +29,6 @@ services:
 
 networks:
   backend:
-    driver: bridge
 
 volumes:
-  mongodb_data:
-    driver: local
+  mongodata:

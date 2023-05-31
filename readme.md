@@ -17,9 +17,46 @@ http://localhost:8000/api/redoc
 
 https://localhost:8000/api/docs
 
-## Запуск
+## Запуск (using docker)
 
-**ОБЯЗАТЕЛЬНО УСТАНОВИТЬ ВСЕ**
+### Requirements
+
+1. Install mkcert - https://github.com/FiloSottile/mkcert
+2. Docker and Docker-compose - https://linuxhint.com/install-docker-compose-windows/
+3. Make (optional) - https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows
+
+### Запуск после установки того, что выше:
+
+#### Установка сертификатов
+
+```bash
+mkcert -install
+mkcert localhost
+
+# перемещаем сертификаты в папку certs
+mkdir certs
+move localhost.pem certs/
+move localhost-key.pem certs/
+```
+
+#### Запуск
+
+```bash
+# если установлен make, то
+make up
+
+# если нет, тогда
+docker-compose -f docker/docker-compose.dev.yml up --build -d
+
+# глянуть логи
+make logs
+# или
+docker-compose -f docker/docker-compose.dev.yml logs -f --tail 100 api
+```
+
+## Запуск (native)
+
+### Requirements
 
 1. Install Python3.9 (ВАЖНО ИМЕННО 3.9)
 2. Install ffmpeg - https://phoenixnap.com/kb/ffmpeg-windows
