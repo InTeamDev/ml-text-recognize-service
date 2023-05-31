@@ -1,19 +1,24 @@
-from pymongo.collection import Collection
+import motor.motor_asyncio
+
+from core.settings import settings
+
+from .base_repository import BaseRepository
 
 
-class RecordRepository:
-    def __init__(self, db_client):
+class RecordRepository(BaseRepository):
+    def __init__(self):
+        db_client = motor.motor_asyncio.AsyncIOMotorClient(settings.MONGO_DSN, serverSelectionTimeoutMS=5000)
         self.db = db_client.ml
-        self.collection: Collection = self.db.records
+        self.collection = self.db["records"]
 
-    def create(self, record: dict) -> str:
-        return self.collection.insert_one(record).inserted_id
+    async def create(self, record: dict) -> str:
+        return await self.collection.insert_one(record).inserted_id
 
-    def get(self, record_id: str) -> dict:
-        return self.collection.find_one({"_id": record_id}).__dict__
+    async def get(self, record_id: str) -> dict:
+        return await self.collection.find_one({"_id": record_id}).__dict__
 
-    def findByVideoInfoUrl(self, url: str):
-        return self.collection.find_one({"video_info.url": url})
+    async def findByVideoInfoUrl(self, url: str):
+        return await self.collection.find_one({"video_info.url": url})
 
-    def findByVideoInfoId(self, video_info_id: str):
-        return self.collection.find_one({"video_info.id": video_info_id})
+    async def findByVideoInfoId(self, video_info_id: str):
+        return await self.collection.find_one({"video_info.id": video_info_id})

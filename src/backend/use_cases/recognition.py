@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import os
+import re
 from datetime import timedelta
 
 import yt_dlp as youtube_dl
-from dependency_injector.wiring import Provide, inject
 
 from backend.repositories.record_repository import RecordRepository
-from core.containers import Container
 from ml import recognize, tags
 
 from .recognition_dto import (
@@ -21,20 +20,23 @@ from .recognition_dto import (
 
 
 class TagsUseCase:
-    @inject
-    def __init__(self, record_repository: RecordRepository = Provide[Container.record_repository]):
+    def __init__(self, record_repository: RecordRepository):
         self.record_repository = record_repository
 
-    def execute(self, data: TagsRequest) -> TagsResponse:
+    async def execute(self, data: TagsRequest) -> TagsResponse:
         text_tags = tags.get(data.text)
 
         author_tags = []
         if data.video_id:
-            record = self.record_repository.findByVideoInfoId(data.video_id)
+            record = await self.record_repository.findByVideoInfoId(data.video_id)
             if record:
                 author_tags = record['video_info'].get('author_tags')
 
         return TagsResponse(tags=text_tags, author_tags=author_tags)
+
+
+def get_video_id(url: str) -> str:
+    return re.search(r"v=([A-Za-z0-9_-]+)", url).group(1)
 
 
 def download_audio(url: str) -> dict:
@@ -90,21 +92,24 @@ class RecordMapping:
 
 
 class RecognizeUseCase:
-    @inject
-    def __init__(self, record_repository: RecordRepository = Provide[Container.record_repository]):
+    def __init__(self, record_repository: RecordRepository):
         self.record_repository = record_repository
 
-    def execute(self, data: RecognizeRequest) -> RecognizeResponse:
+    async def execute(self, data: RecognizeRequest) -> RecognizeResponse:
         if data.type == RecognizeSourceType.YOUTUBE:
-            result = self.record_repository.findByVideoInfoUrl(data.url)
+            result = await self.record_repository.findByVideoInfoUrl(data.url)
             if result:
                 return RecordMapping().from_dict(result)
 
+            if self.record_repository.is_lock(get_video_id(data.url)):
+                raise Exception("Queue is locked, please try again later")
             video_info = download_audio(data.url)
-            result = self.record_repository.findByVideoInfoId(video_info['id'])
+
+            result = await self.record_repository.findByVideoInfoId(video_info['id'])
             if result:
                 return RecordMapping().from_dict(result)
 
+            await self.record_repository.lock(video_info['id'])
             audio_filename = video_info['audio_filename']
             result = recognize.get(audio_filename)
 
@@ -114,6 +119,7 @@ class RecognizeUseCase:
             result.setdefault('record_type', data.type.value)
             result.setdefault('video_info', video_info)
 
-            self.record_repository.create(result)
+            await self.record_repository.create(result)
+            await self.record_repository.unlock(video_info['id'])
             return RecordMapping().from_dict(result)
         raise NotImplementedError
