@@ -1,5 +1,4 @@
 from string import punctuation
-
 import pymorphy2
 import yake
 
