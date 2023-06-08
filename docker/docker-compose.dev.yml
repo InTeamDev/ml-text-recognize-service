@@ -9,7 +9,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: "ml"
     volumes:
-      - mongodata:/data/db
+      - ./backup:/backup
     networks:
       - backend
   api:
@@ -29,6 +29,3 @@ services:
 
 networks:
   backend:
-
-volumes:
-  mongodata:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from datetime import timedelta
 
 import yt_dlp as youtube_dl
@@ -35,6 +36,10 @@ class TagsUseCase:
                 author_tags = record['video_info'].get('author_tags')
 
         return TagsResponse(tags=text_tags, author_tags=author_tags)
+
+
+def get_video_id(url: str) -> str:
+    return re.search(r"v=([A-Za-z0-9_-]+)", url).group(1)
 
 
 def download_audio(url: str) -> dict:
@@ -101,10 +106,6 @@ class RecognizeUseCase:
                 return RecordMapping().from_dict(result)
 
             video_info = download_audio(data.url)
-            result = self.record_repository.findByVideoInfoId(video_info['id'])
-            if result:
-                return RecordMapping().from_dict(result)
-
             audio_filename = video_info['audio_filename']
             result = recognize.get(audio_filename)
 
