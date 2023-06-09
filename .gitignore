@@ -1,17 +1,11 @@
 .venv
 venv
 .venv-11
-
 .vscode
 .idea
 .vs
-
 __pycache__
 *.egg-info
-
 .env
 .DS_Store
-
 certs
-
-backup
